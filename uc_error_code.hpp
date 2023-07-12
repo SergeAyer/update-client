@@ -13,47 +13,30 @@
 // limitations under the License.
 
 /****************************************************************************
- * @file usb_serial_uc.hpp
+ * @file error_codes.hpp
  * @author Serge Ayer <serge.ayer@hefr.ch>
  *
- * @brief Header file for defining the update client over usb serial class.
+ * @brief Header file for defining the error codes of the update client library.
  *
  * @date 2022-07-05
  * @version 0.1.0
  ***************************************************************************/
 #pragma once
 
-#include "USBSerial.h"
-#include "mbed.h"
-#include "uc_error_code.hpp"
-
 namespace update_client {
 
-#if (USE_USB_SERIAL_UC == 1) && defined(HEADER_ADDR)
-
-class USBSerialUC {
-   public:
-    // constructor with a reference to a block device
-    explicit USBSerialUC(BlockDevice& blockDevice);
-
-    // method called for creating the CandidateApplications instance
-
-    // methods for starting and stopping the updater
-    UCErrorCode start();
-    void stop();
-
-   private:
-    // private method
-    void downloadFirmware();
-
-    // data members
-    BlockDevice& _blockDevice;
-    Thread _downloaderThread;
-    enum { STOP_EVENT_FLAG = 1 };
-    EventFlags _stopEvent;
-    static constexpr std::chrono::milliseconds kWaitTimeBetweenCheck = 5000ms;
+// return codes
+enum class UCErrorCode {
+    UC_ERR_NONE                = 0,
+    UC_ERR_INVALID_HEADER      = -1,
+    UC_ERR_INVALID_CHECKSUM    = -2,
+    UC_ERR_READ_FAILED         = -3,
+    UC_ERR_HASH_INVALID        = -4,
+    UC_ERR_FIRMWARE_EMPTY      = -5,
+    UC_ERR_PROGRAM_FAILED      = -6,
+    UC_ERR_ERASE_FAILED        = -7,
+    UC_ERR_CANNOT_INIT         = -8,
+    UC_ERR_CANNOT_START_THREAD = -9
 };
-
-#endif  // USE_USB_SERIAL_UC
 
 }  // namespace update_client
