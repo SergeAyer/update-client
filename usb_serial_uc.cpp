@@ -49,6 +49,7 @@ UCErrorCode USBSerialUC::start() {
         tr_error("Failed to initialized block device: %d", result);
         return UCErrorCode::UC_ERR_CANNOT_INIT;
     }
+    tr_debug("Block device initialized");
     osStatus status =
         _downloaderThread.start(callback(this, &USBSerialUC::downloadFirmware));
     if (osOK != status) {
@@ -66,6 +67,7 @@ void USBSerialUC::stop() {
 }
 
 void USBSerialUC::downloadFirmware() {
+    tr_debug("Downloader thread started");
     while (true) {
         tr_debug("Updater waiting for connection");
         USBSerial usbSerial(true);
@@ -93,7 +95,7 @@ void USBSerialUC::downloadFirmware() {
         uint32_t slotIndex = candidateApplications->getSlotForCandidate();
 
         tr_debug("Reading application info for slot %" PRIu32 "", slotIndex);
-        candidateApplications->getMbedApplication(slotIndex).logApplicationInfo();
+        candidateApplications->getBlockDeviceApplication(slotIndex).logApplicationInfo();
 
         mbed::bd_addr_t candidateApplicationAddress = 0;
         mbed::bd_size_t slotSize                    = 0;
@@ -181,10 +183,10 @@ void USBSerialUC::downloadFirmware() {
         mbed::bd_addr_t activeApplicationHeaderAddress = MBED_CONF_TARGET_HEADER_OFFSET;
         mbed::bd_addr_t activeApplicationAddress =
             activeApplicationHeaderAddress + headerSize;
-        update_client::MbedApplication activeApplication(
+        update_client::BlockDeviceApplication activeApplication(
             _blockDevice, activeApplicationHeaderAddress, activeApplicationAddress);
 
-        update_client::MbedApplication candidateApplication(
+        update_client::BlockDeviceApplication candidateApplication(
             _blockDevice,
             candidateApplicationAddress,
             candidateApplicationAddress + headerSize);
