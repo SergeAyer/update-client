@@ -53,7 +53,7 @@ UCErrorCode USBSerialUC::start() {
     osStatus status =
         _downloaderThread.start(callback(this, &USBSerialUC::downloadFirmware));
     if (osOK != status) {
-        tr_error("Failed to start downloader thread: %d", status);
+        tr_error("Failed to start downloader thread: %" PRIi32 "", (int32_t) status);
         return UCErrorCode::UC_ERR_CANNOT_START_THREAD;
     }
 
@@ -140,7 +140,6 @@ void USBSerialUC::downloadFirmware() {
         tr_debug("Please send the update file...");
 
         uint32_t nbrOfBytes = 0;
-        uint32_t counter    = 0;
 
         std::unique_ptr<char> writeBuffer = std::unique_ptr<char>(new char[programSize]);
         std::unique_ptr<char> readBuffer  = std::unique_ptr<char>(new char[programSize]);

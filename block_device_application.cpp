@@ -70,7 +70,7 @@ uint64_t BlockDeviceApplication::getFirmwareVersion() {
     if (!_applicationHeader.initialized) {
         UCErrorCode rc = readApplicationHeader();
         if (UCErrorCode::UC_ERR_NONE != rc) {
-            tr_error(" Invalid application header: %" PRIi32 "", rc);
+            tr_error(" Invalid application header: %" PRIi32 "", (int32_t) rc);
             _applicationHeader.state = NOT_VALID;
             return 0;
         }
@@ -83,7 +83,7 @@ uint64_t BlockDeviceApplication::getFirmwareSize() {
     if (!_applicationHeader.initialized) {
         UCErrorCode rc = readApplicationHeader();
         if (UCErrorCode::UC_ERR_NONE != rc) {
-            tr_error(" Invalid application header: %" PRIi32 "", rc);
+            tr_error(" Invalid application header: %" PRIi32 "", (int32_t) rc);
             _applicationHeader.state = NOT_VALID;
             return 0;
         }
@@ -122,7 +122,7 @@ UCErrorCode BlockDeviceApplication::checkApplication() {
     // read the header
     UCErrorCode rc = readApplicationHeader();
     if (UCErrorCode::UC_ERR_NONE != rc) {
-        tr_error(" Invalid application header: %" PRIi32 "", rc);
+        tr_error(" Invalid application header: %" PRIi32 "", (int32_t) rc);
         _applicationHeader.state = NOT_VALID;
         return rc;
     }
@@ -320,7 +320,7 @@ UCErrorCode BlockDeviceApplication::readApplicationHeader() {
                                  read_buffer[0]);
                         rc = parseInternalHeaderV2(read_buffer);
                         if (UCErrorCode::UC_ERR_NONE != rc) {
-                            tr_error(" Failed to parse header: %" PRIi32 "", rc);
+                            tr_error(" Failed to parse header: %" PRIi32 "", (int32_t) rc);
                         }
                     } else {
                         tr_error("Flash read failed at address 0x%08" PRIx64 ": %d",
