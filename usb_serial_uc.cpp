@@ -53,7 +53,7 @@ UCErrorCode USBSerialUC::start() {
     osStatus status =
         _downloaderThread.start(callback(this, &USBSerialUC::downloadFirmware));
     if (osOK != status) {
-        tr_error("Failed to start downloader thread: %" PRIi32 "", (int32_t) status);
+        tr_error("Failed to start downloader thread: %" PRIi32 "", (int32_t)status);
         return UCErrorCode::UC_ERR_CANNOT_START_THREAD;
     }
 

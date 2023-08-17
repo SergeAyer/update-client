@@ -177,7 +177,7 @@ bool CandidateApplications::hasValidNewerApplication(
                 tr_error(" Candidate application at slot %" PRIu32
                          " is not valid: %" PRIi32 "",
                          slotIndex,
-                         (int32_t) rc);
+                         (int32_t)rc);
                 continue;
             }
             tr_debug(" Candidate application at slot %" PRIu32 " is valid", slotIndex);
