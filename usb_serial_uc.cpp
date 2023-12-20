@@ -73,7 +73,7 @@ void USBSerialUC::downloadFirmware() {
         USBSerial usbSerial(true);
         tr_debug("Updater connected");
         // flush the serial connection
-        usbSerial.sync();
+        usbSerial.wait_ready();
 
         const mbed::bd_size_t programSize = _blockDevice.get_program_size();
 

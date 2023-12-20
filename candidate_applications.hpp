@@ -73,7 +73,7 @@ class CandidateApplications {
 
 update_client::CandidateApplications* createCandidateApplications(
     BlockDevice& blockDevice,
-    uint32_t storageAddress,
-    uint32_t storageSize,
+    mbed::bd_addr_t storageAddress,
+    mbed::bd_size_t storageSize,
     uint32_t headerSize,
     uint32_t nbrOfSlots);
